@@ -38,6 +38,18 @@ IPAddress server(192, 168, 0, 102); //IP do Servidor Broker
 EthernetClient ethClient;
 PubSubClient client(ethClient);
 
+
+struct AREA {
+    int estado_lampada1;
+    int estado_lampada2;
+    int range_lampada1;
+    int range_lampada2;
+    int range_temperatura;
+};
+
+AREA area1 = { 0, 0, 0, 0, 0 }, area2 = { 0, 0, 0, 0, 0 };
+
+
 void conecta_cliente();
 void callback(char* topic, byte* payload, unsigned int length);
 void imprime_erro_de_conexao_mqtt(int estado);
