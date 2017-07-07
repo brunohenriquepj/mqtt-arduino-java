@@ -8,6 +8,28 @@
 #define CLIENTE_USUARIO "arduino_client"
 #define CLIENTE_SENHA "arduino"
 
+#define LAMPADA1_AREA1_ESTADO_TOPICO_SUB "arduino/area/1/componente/1/lampada/estado"
+#define LAMPADA1_AREA1_VALOR_TOPICO_SUB "arduino/area/1/componente/1/lampada/valor"
+#define LAMPADA2_AREA1_ESTADO_TOPICO_SUB "arduino/area/1/componente/2/lampada/estado"
+#define LAMPADA2_AREA1_VALOR_TOPICO_SUB "arduino/area/1/componente/2/lampada/valor"
+#define LAMPADA1_AREA2_ESTADO_TOPICO_SUB "arduino/area/2/componente/1/lampada/estado"
+#define LAMPADA1_AREA2_VALOR_TOPICO_SUB "arduino/area/2/componente/1/lampada/valor"
+#define LAMPADA2_AREA2_ESTADO_TOPICO_SUB "arduino/area/2/componente/2/lampada/estado"
+#define LAMPADA2_AREA2_VALOR_TOPICO_SUB "arduino/area/2/componente/2/lampada/valor"
+#define ATUALIZA_VALORES_TOPICO_SUB "arduino/atualiza/valores"
+
+#define LAMPADA1_AREA1_ESTADO_TOPICO_PUB "web/area/1/componente/1/lampada/estado"
+#define LAMPADA1_AREA1_VALOR_TOPICO_PUB "web/area/1/componente/1/lampada/valor"
+#define LAMPADA2_AREA1_ESTADO_TOPICO_PUB "web/area/1/componente/2/lampada/estado"
+#define LAMPADA2_AREA1_VALOR_TOPICO_PUB "web/area/1/componente/2/lampada/valor"
+#define TEMPERATURA_AREA1_RANGE_TOPICO_PUB "web/area/1/componente/1/temperatura/valor"
+#define LAMPADA1_AREA2_ESTADO_TOPICO_PUB "web/area/2/componente/1/lampada/estado"
+#define LAMPADA1_AREA2_VALOR_TOPICO_PUB "web/area/2/componente/1/lampada/valor"
+#define LAMPADA2_AREA2_ESTADO_TOPICO_PUB "web/area/2/componente/2/lampada/estado"
+#define LAMPADA2_AREA2_VALOR_TOPICO_PUB "web/area/2/componente/2/lampada/valor"
+#define TEMPERATURA_AREA2_RANGE_TOPICO_PUB "web/area/2/componente/1/temperatura/valor"
+#define ATUALIZA_VALORES_TOPICO_PUB "web/atualiza/valores"
+
 
 byte mac[] = { 0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0xED };
 IPAddress ip(192, 168, 0, 101); //IP do Arduino
@@ -67,5 +89,3 @@ void imprime_erro_de_conexao_mqtt(int estado) {
     Serial.print("ERRO AO CONECTAR CLIENTE. Causa: ");
     Serial.println(estado); // http://pubsubclient.knolleary.net/api.html#state
 }
-
-
