@@ -2,4 +2,5 @@
 java-web-client/mqtt-client/.idea
 java-web-client/mqtt-client/*.iml
 java-web-client/mqtt-client/target
+java-web-client/mqtt-client/java_client-tcp*
 !.gitignore
