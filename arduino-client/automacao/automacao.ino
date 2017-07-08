@@ -49,6 +49,14 @@ struct AREA {
 
 AREA area1 = { 0, 0, 0, 0, 0 }, area2 = { 0, 0, 0, 0, 0 };
 
+int pino_area1_lampada1 = 2;
+int pino_area1_lampada2 = 3;
+int pino_area1_analogico_temperatura = 3;
+
+int pino_area2_lampada1 = 4;
+int pino_area2_lampada2 = 5;
+int pino_area2_analogico_temperatura = 5;
+
 int base_conversao = 10;
 int tamanho_copy = 50;
 
@@ -56,6 +64,8 @@ void conecta_cliente();
 void callback(char* topic, byte* payload, unsigned int length);
 void imprime_erro_de_conexao_mqtt(int estado);
 void subscribe_topicos();
+void inicializa_componentes();
+void configura_pin_mode();
 
 void setup() {
     Serial.begin(9600);
@@ -65,6 +75,9 @@ void setup() {
     client.setCallback(callback);
     Ethernet.begin(mac, ip);
     delay(1500);
+
+    configura_pin_mode();
+    inicializa_componentes();
 }
 
 void loop() {
@@ -147,4 +160,28 @@ void envia_informacoes() {
     client.publish(LAMPADA2_AREA2_ESTADO_TOPICO_PUB, copy);
     itoa(area2.range_lampada2, copy, base_conversao);
     client.publish(LAMPADA2_AREA2_VALOR_TOPICO_PUB, copy);
+}
+
+void configura_pin_mode() {
+    Serial.println("Configura pinMode");
+    // AREA 1
+    pinMode(pino_area1_lampada1, OUTPUT);
+    pinMode(pino_area1_lampada2, OUTPUT);
+
+    // AREA 2
+    pinMode(pino_area2_lampada1, OUTPUT);
+    pinMode(pino_area2_lampada2, OUTPUT);
+    delay(1000);
+}
+
+void inicializa_componentes() {
+    Serial.println("Inicializa componentes");
+    // AREA 1
+    digitalWrite(pino_area1_lampada1, LOW);
+    digitalWrite(pino_area1_lampada2, LOW);
+
+    // AREA 2
+    digitalWrite(pino_area2_lampada1, LOW);
+    digitalWrite(pino_area2_lampada2, LOW);
+    delay(1000);
 }
