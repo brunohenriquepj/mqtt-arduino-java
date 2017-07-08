@@ -68,6 +68,7 @@ void subscribe_topicos();
 void inicializa_componentes();
 void configura_pin_mode();
 void pega_valor_da_temperatura_e_publica(int delay_temperatura);
+void atualiza_informacoes(char* topic, char* message);
 
 void setup() {
     Serial.begin(9600);
@@ -113,6 +114,59 @@ void callback(char* topic, byte* payload, unsigned int length) {
         mensagem[i] = (char)payload[i];
     }
     mensagem[i++] = '\0';
+    atualiza_informacoes(topic, mensagem);
+}
+
+void atualiza_informacoes(char* topic, char* message) {
+    char copy[tamanho_copy];
+    String mensagem = String(message);
+
+     if (!strcmp(LAMPADA1_AREA1_ESTADO_TOPICO_SUB, topic)) {
+        if (area1.estado_lampada1 != atoi(message)) {
+            area1.estado_lampada1 = atoi(message);
+            client.publish(LAMPADA1_AREA1_ESTADO_TOPICO_PUB, message);
+            if (area1.estado_lampada1 == 0) {
+                digitalWrite(pino_area1_lampada1, LOW);
+            } else if (area1.estado_lampada1 == 1) {
+                digitalWrite(pino_area1_lampada1, HIGH);
+            }
+        }
+    } if (!strcmp(LAMPADA2_AREA1_ESTADO_TOPICO_SUB, topic)) {
+        if (area1.estado_lampada2 != atoi(message)) {
+            area1.estado_lampada2 = atoi(message);
+            client.publish(LAMPADA2_AREA1_ESTADO_TOPICO_PUB, message);
+            if (area1.estado_lampada2 == 0) {
+                digitalWrite(pino_area1_lampada2, LOW);
+            } else if (area1.estado_lampada2 == 1) {
+                digitalWrite(pino_area1_lampada2, HIGH);
+            }
+        }
+    } if (!strcmp(LAMPADA1_AREA2_ESTADO_TOPICO_SUB, topic)) {
+        if (area2.estado_lampada1 != atoi(message)) {
+            area2.estado_lampada1 = atoi(message);
+            client.publish(LAMPADA1_AREA2_ESTADO_TOPICO_PUB, message);
+            if (area2.estado_lampada1 == 0) {
+                digitalWrite(pino_area2_lampada1, LOW);
+            } else if (area2.estado_lampada1 == 1) {
+                digitalWrite(pino_area2_lampada1, HIGH);
+            }
+        }
+    } if (!strcmp(LAMPADA2_AREA2_ESTADO_TOPICO_SUB, topic)) {
+        if (area2.estado_lampada2 != atoi(message)) {
+            area2.estado_lampada2 = atoi(message);
+            client.publish(LAMPADA2_AREA2_ESTADO_TOPICO_PUB, message);
+            if (area2.estado_lampada2 == 0) {
+                digitalWrite(pino_area2_lampada2, LOW);
+            } else if (area2.estado_lampada2 == 1) {
+                digitalWrite(pino_area2_lampada2, HIGH);
+            }
+        }
+    } if (!strcmp(ATUALIZA_VALORES_TOPICO_SUB, topic)) {
+        if (atoi(message) == 1) {
+            Serial.println("atualizando informacoes");
+            envia_informacoes();
+        }
+    }
 }
 
 
