@@ -59,6 +59,7 @@ int pino_area2_analogico_temperatura = 5;
 
 int base_conversao = 10;
 int tamanho_copy = 50;
+int cont_segundo = 0;
 
 void conecta_cliente();
 void callback(char* topic, byte* payload, unsigned int length);
@@ -66,6 +67,7 @@ void imprime_erro_de_conexao_mqtt(int estado);
 void subscribe_topicos();
 void inicializa_componentes();
 void configura_pin_mode();
+void pega_valor_da_temperatura_e_publica(int delay_temperatura);
 
 void setup() {
     Serial.begin(9600);
@@ -82,6 +84,7 @@ void setup() {
 
 void loop() {
     conecta_cliente();
+    pega_valor_da_temperatura_e_publica(5);
     delay(1000);
     client.loop();
 }
@@ -160,6 +163,8 @@ void envia_informacoes() {
     client.publish(LAMPADA2_AREA2_ESTADO_TOPICO_PUB, copy);
     itoa(area2.range_lampada2, copy, base_conversao);
     client.publish(LAMPADA2_AREA2_VALOR_TOPICO_PUB, copy);
+
+    pega_valor_da_temperatura_e_publica(0);
 }
 
 void configura_pin_mode() {
@@ -184,4 +189,17 @@ void inicializa_componentes() {
     digitalWrite(pino_area2_lampada1, LOW);
     digitalWrite(pino_area2_lampada2, LOW);
     delay(1000);
+}
+
+void pega_valor_da_temperatura_e_publica(int delay_temperatura) {
+    char buffer[50];
+
+    if (cont_segundo >= delay_temperatura) {
+        float temperatura_area1 = (5.0 * analogRead(pino_area1_analogico_temperatura) * 100.0) / 1024.0;
+        float temperatura_area2 = (5.0 * analogRead(pino_area2_analogico_temperatura) * 100.0) / 1024.0;
+        client.publish(TEMPERATURA_AREA1_RANGE_TOPICO_PUB, itoa(temperatura_area1, buffer, base_conversao));
+        client.publish(TEMPERATURA_AREA2_RANGE_TOPICO_PUB, itoa(temperatura_area2, buffer, base_conversao));
+        cont_segundo = 0;
+    }
+    cont_segundo++;
 }
