@@ -1,0 +1,5 @@
+# Intellij
+java-web-client/mqtt-client/.idea
+java-web-client/mqtt-client/*.iml
+java-web-client/mqtt-client/target
+!.gitignore
