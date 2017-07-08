@@ -49,6 +49,8 @@ struct AREA {
 
 AREA area1 = { 0, 0, 0, 0, 0 }, area2 = { 0, 0, 0, 0, 0 };
 
+int base_conversao = 10;
+int tamanho_copy = 50;
 
 void conecta_cliente();
 void callback(char* topic, byte* payload, unsigned int length);
@@ -65,13 +67,11 @@ void setup() {
     delay(1500);
 }
 
-
 void loop() {
     conecta_cliente();
     delay(1000);
     client.loop();
 }
-
 
 void conecta_cliente() {
     while(!client.connected()) {
@@ -79,6 +79,7 @@ void conecta_cliente() {
         if (client.connect(CLIENT_ID, CLIENTE_USUARIO, CLIENTE_SENHA)) {
             Serial.println("Cliente conectado.");
             subscribe_topicos();
+            envia_informacoes();
         }
         else {
             imprime_erro_de_conexao_mqtt(client.state());
@@ -121,4 +122,29 @@ void subscribe_topicos() {
         // Atualiza valores
         client.subscribe(ATUALIZA_VALORES_TOPICO_SUB, QOS);
     }
+}
+
+void envia_informacoes() {
+    Serial.println("Publicando (enviando) informacoes.");
+    char copy[tamanho_copy];
+
+    // AREA 1
+    itoa(area1.estado_lampada1, copy, base_conversao);
+    client.publish(LAMPADA1_AREA1_ESTADO_TOPICO_PUB, copy);
+    itoa(area1.range_lampada1, copy, base_conversao);
+    client.publish(LAMPADA1_AREA1_VALOR_TOPICO_PUB, copy);
+    itoa(area1.estado_lampada2, copy, base_conversao);
+    client.publish(LAMPADA2_AREA1_ESTADO_TOPICO_PUB, copy);
+    itoa(area1.range_lampada2, copy, base_conversao);
+    client.publish(LAMPADA2_AREA1_VALOR_TOPICO_PUB, copy);
+
+    // AREA 2
+    itoa(area2.estado_lampada1, copy, base_conversao);
+    client.publish(LAMPADA1_AREA2_ESTADO_TOPICO_PUB, copy);
+    itoa(area2.range_lampada1, copy, base_conversao);
+    client.publish(LAMPADA1_AREA2_VALOR_TOPICO_PUB, copy);
+    itoa(area2.estado_lampada2, copy, base_conversao);
+    client.publish(LAMPADA2_AREA2_ESTADO_TOPICO_PUB, copy);
+    itoa(area2.range_lampada2, copy, base_conversao);
+    client.publish(LAMPADA2_AREA2_VALOR_TOPICO_PUB, copy);
 }
